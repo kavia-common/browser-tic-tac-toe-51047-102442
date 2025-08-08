@@ -1,104 +1,223 @@
-/* CSS Variables for Theme Management */
+/* --- Minimalistic, Modern Tic Tac Toe Styles --- */
+
+/* ----- Theme Variables ----- */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  /* Custom color scheme */
+  --primary: #1e88e5;
+  --secondary: #42a5f5;
+  --accent: #ffeb3b;
+
+  --ttt-bg: #fff;
+  --ttt-surface: #f8f9fa;
+  --ttt-board-bg: #f4f6fb;
+  --ttt-footer-bg: #fafafb;
+  --ttt-shadow: 0 3px 18px rgba(30, 136, 229, 0.07);
+  --ttt-border: #cfd8dc;
+  --ttt-x-color: var(--primary);
+  --ttt-o-color: var(--secondary);
+
+  --ttt-status-win: var(--primary);
+  --ttt-status-draw: #afb8c2;
+
+  --ttt-square-bg: #fff;
+  --ttt-square-hover: #eaf2fc;
+  --ttt-square-border: #bad5f9;
+  --ttt-square-win: var(--accent);
+
+  --ttt-btn-bg: var(--primary);
+  --ttt-btn-text: #fff;
+  --ttt-btn-hover-bg: var(--secondary);
+
+  --ttt-header-font: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+/* ----- App Container ----- */
+.tic-tac-toe-app {
+  min-height: 100vh;
+  background: var(--ttt-bg);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ttt-header-font);
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.App {
+/* ----- Header ----- */
+.ttt-header {
+  margin-top: 4vh;
+  margin-bottom: 1.7vh;
   text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.ttt-header h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  letter-spacing: 0.06em;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+main {
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* ----- Board ----- */
+.ttt-board {
+  background: var(--ttt-board-bg);
+  border-radius: 14px;
+  box-shadow: var(--ttt-shadow);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(54px, 64px));
+  grid-template-rows: repeat(3, minmax(54px, 64px));
+  gap: 7px;
+  margin: 0 auto 1.25rem auto;
+  width: max-content;
+  padding: 24px 22px 20px 22px;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
+.ttt-square {
+  background: var(--ttt-square-bg);
+  border: 2px solid var(--ttt-square-border);
+  border-radius: 10px;
+  font-size: 2.1rem;
+  font-weight: 600;
+  color: var(--ttt-x-color);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, border-color 0.18s, color 0.28s;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ttt-square:hover:enabled, .ttt-square:focus:enabled {
+  background: var(--ttt-square-hover);
+  border-color: var(--primary);
+}
+.ttt-square[disabled] {
+  cursor: default;
+  opacity: 0.75;
+}
+.ttt-square.highlight {
+  background: var(--ttt-square-win);
+  border-color: var(--accent);
+  color: #222;
+}
+
+.ttt-board .ttt-square:nth-child(3n+2) {
+  color: var(--ttt-o-color);
+}
+.ttt-board .ttt-square {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ----- Status Panel ----- */
+.ttt-status-panel {
+  text-align: center;
+  margin: 0.6rem 0 0.1rem 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ttt-status {
+  font-size: 1.23rem;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.03em;
+  background: rgba(30,136,229,0.04);
+  border-radius: 7px;
+  padding: 4px 13px;
+  min-width: 110px;
+  transition: color 0.2s, background 0.2s;
+}
+.ttt-status-winner {
+  color: var(--primary);
+  background: var(--accent);
+}
+.ttt-status-draw {
+  color: var(--ttt-status-draw);
+  background: #f3f3f3;
+}
+
+/* ----- Controls ----- */
+.ttt-controls {
+  margin: 1.1rem 0 0.85rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7rem;
+  justify-content: center;
+}
+.ttt-btn {
+  appearance: none;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  background: var(--ttt-btn-bg);
+  color: var(--ttt-btn-text);
+  font-size: 1.09rem;
+  font-weight: 500;
+  padding: 10px 26px;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.19s, color 0.22s;
+  box-shadow: 0 2px 12px 0 rgba(42, 120, 228, 0.05);
+}
+.ttt-btn:hover, .ttt-btn:active, .ttt-btn:focus {
+  background: var(--ttt-btn-hover-bg);
+}
+.ttt-btn:active {
+  background: var(--accent);
+  color: #222;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* ----- Footer ----- */
+.ttt-footer {
+  text-align: center;
+  font-size: 0.98rem;
+  padding-bottom: 1.8vh;
+  color: #b3b3b3;
+  margin-top: 2.2vh;
+}
+.ttt-footer span {
+  opacity: 0.85;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ----- Responsiveness ----- */
+@media (max-width: 600px) {
+  .ttt-board {
+    padding: 10px 4px 10px 4px;
+    grid-template-columns: repeat(3, minmax(38px, 18vw));
+    grid-template-rows: repeat(3, minmax(38px, 18vw));
+    gap: 3.5px;
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-square {
+    font-size: 1.27rem;
+    width: 40px;
+    height: 40px;
+  }
+  .ttt-header h1 {
+    font-size: 1.32rem;
+  }
+  .ttt-btn {
+    padding: 7px 13px;
+    font-size: 0.98rem;
+  }
+  .ttt-status-panel {
+    min-height: 23px;
+    padding: 0 7px;
   }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Remove default outline on buttons when using keyboard,
+   but maintain a visible focus style for accessibility. */
+.ttt-square:focus-visible, .ttt-btn:focus-visible {
+  outline: 2.5px solid var(--primary);
 }
